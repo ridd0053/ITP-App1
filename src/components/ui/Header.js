@@ -122,19 +122,17 @@ function ElevationScroll(props) {
       }
   }))
 
-export default function Header() {
+export default function Header(props) {
     const classes = useStyles();
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
 
-    const [tabIndex, setTabindex ] = useState(0)
     const [anchorEl, setAnchorEl] = useState(null)
     const [open, setOpen] = useState(false)
-    const [selectedIndex, setSelectedIndex] = useState(0)
     const [openDrawer, setOpenDrawer] = useState(false);
 
     const handleChange = (e, value) => {
-        setTabindex(value)
+        props.setTabindex(value)
     }
 
     const handleClick = (e) => {
@@ -145,7 +143,7 @@ export default function Header() {
     const handleMenuItemClick = (e, i) => {
         setAnchorEl(null)
         setOpen(false)
-        setSelectedIndex(i)
+        props.setSelectedIndex(i)
     }
 
     const handleClose = (e) => {
@@ -196,29 +194,29 @@ export default function Header() {
         [...menuOptions, ...routes].forEach(route => {
             switch (window.location.pathname) {
               case `${route.link}`:
-                if (tabIndex !== route.activeIndex) {
-                    setTabindex(route.activeIndex);
+                if (props.tabIndex !== route.activeIndex) {
+                  props.setTabindex(route.activeIndex);
                   if (
                     route.selectedIndex &&
-                    route.selectedIndex !== selectedIndex
+                    route.selectedIndex !== props.selectedIndex
                   ) {
-                    setSelectedIndex(route.selectedIndex);
+                    props.setSelectedIndex(route.selectedIndex);
                   }
                 }
                 break;
               case "/estimate":
-                setTabindex(5);
+                props.setTabindex(5);
                 break;
               default:
                 break;
             }
           });
 
-      }, [tabIndex, selectedIndex, routes, menuOptions ])
+      }, [props.tabIndex, props.selectedIndex, routes, menuOptions, props ])
 
       const tabs = (
         <React.Fragment>
-            <Tabs value={tabIndex} className={classes.tabContainer} onChange={handleChange}>
+            <Tabs value={props.tabIndex} className={classes.tabContainer} onChange={handleChange}>
                 {routes.map((route, index) => (
                     <Tab
                     key={route.link} 
@@ -247,11 +245,11 @@ export default function Header() {
              {menuOptions.map((option, i) => (
                 <MenuItem
                 key={i} 
-                onClick={(event) => {handleMenuItemClick(event, i); handleClose(); setTabindex(1)}} 
+                onClick={(event) => {handleMenuItemClick(event, i); handleClose(); props.setTabindex(1)}} 
                 component={Link} 
                 to={option.link} 
                 classes={{root: classes.menuItem}} 
-                selected={i === selectedIndex && tabIndex === 1}>
+                selected={i === props.selectedIndex && props.tabIndex === 1}>
                 {option.name}</MenuItem>
                 ))}
             </Menu> 
@@ -271,12 +269,12 @@ export default function Header() {
                 {routes.map( route => (
                     <ListItem 
                     key={route.link}
-                    onClick={() => {setOpenDrawer(false); setTabindex(route.activeIndex)}} 
+                    onClick={() => {setOpenDrawer(false); props.setTabindex(route.activeIndex)}} 
                     divider
                     button
                     component={Link} 
                     to={route.link}
-                    selected={tabIndex === route.activeIndex}
+                    selected={props.tabIndex === route.activeIndex}
                     classes={{selected: classes.drawerItemSelected}}
                     >
                         <ListItemText className={classes.drawerItem} disableTypography>
@@ -285,8 +283,8 @@ export default function Header() {
                     </ListItem>
                 ))}
                 <ListItem 
-                selected={tabIndex === 5} 
-                onClick={() => {setOpenDrawer(false); setTabindex(5)}} 
+                selected={props.tabIndex === 5} 
+                onClick={() => {setOpenDrawer(false); props.setTabindex(5)}} 
                 divider button  
                 component={Link}
                  to="/estimate" 
@@ -312,7 +310,7 @@ export default function Header() {
         <ElevationScroll>
             <AppBar position="fixed" className={classes.appbar}>
                 <Toolbar disableGutters>
-                    <Button component={Link} to="/" className={classes.logoContainer} onClick={() => setTabindex(0)} disableRipple>
+                    <Button component={Link} to="/" className={classes.logoContainer} onClick={() => props.setTabindex(0)} disableRipple>
                         <img alt="logo" src={logo} className={classes.logo} />
                     </Button>
                     {matches ? drawer : tabs}
