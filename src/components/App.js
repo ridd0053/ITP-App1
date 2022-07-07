@@ -16,16 +16,17 @@ function App() {
         <Router>
           <Header tabIndex={tabIndex} setTabindex={setTabindex} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
           <Routes>
-            <Route exact path="/" element= {<LandingPage />} />
+            <Route exact path="/" element= {<LandingPage setTabindex={setTabindex} setSelectedIndex={setSelectedIndex} />} />
             <Route exact path="/services" element= {<div>Services</div>} />
             <Route exact path="/customsoftware" element= {<div>Custom Software</div>} />
-            <Route exact path="/mobileapps" element= {<div>Mobile Apps</div>} />
+            <Route exact path="/mobileapps" element= {<div>iOS/Android App Development</div>} />
             <Route exact path="/websites" element= {<div>Websites</div>} />
             <Route exact path="/revolution" element= {<div>Revolution</div>} />
             <Route exact path="/about" element= {<div>About</div>} />
             <Route exact path="/contact" element= {<div>Contact</div>} />
+            <Route exact path="/estimate" element= {<div>Estimate</div>} />
         </Routes>
-          <Footer tabIndex={tabIndex} setTabindex={setTabindex} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
+          <Footer setTabindex={setTabindex} setSelectedIndex={setSelectedIndex} />
         </Router>
       </div>
     </MuiThemeProvider>

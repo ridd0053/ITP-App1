@@ -118,7 +118,7 @@ function ElevationScroll(props) {
       drawerItemSelected: {
         borderBottom: `2px solid ${theme.palette.common.orange}`,
         "& .MuiListItemText-root": {
-          opacity: 1
+          opacity: 1,
         }
       },
       appbar: {
@@ -209,7 +209,7 @@ export default function Header(props) {
                 }
                 break;
               case "/estimate":
-                props.setTabindex(5);
+                props.setTabindex(routes.length + 1);
                 break;
               default:
                 break;
@@ -234,7 +234,7 @@ export default function Header(props) {
                     />
                 ))}
             </Tabs>
-            <Button variant="contained" color="secondary" className={classes.button}>Free Estimate</Button>
+            <Button variant="contained" color="secondary" className={classes.button} component={Link}  to="/estimate" onClick={() => props.setTabindex(routes.length + 1)}>Free Estimate</Button>
             <Menu 
              id="simple-menu"
              classes={{paper: classes.menu}} 
@@ -281,7 +281,7 @@ export default function Header(props) {
                     selected={props.tabIndex === route.activeIndex}
                     classes={{selected: classes.drawerItemSelected}}
                     >
-                        <ListItemText className={classes.drawerItem} disableTypography>
+                        <ListItemText classes={{root: classes.drawerItem}} disableTypography>
                             {route.name}
                         </ListItemText>
                     </ListItem>
