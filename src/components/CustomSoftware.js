@@ -20,12 +20,17 @@ import scaleAnimation from "../animations/scaleAnimation/data"
 import automationAnimation from "../animations/automationAnimation/data"
 import uxAnimation from "../animations/uxAnimation/data"
 
+import CallToAction from "./ui/CallToAction"
+
 const useStyles = makeStyles(theme => ({
-    mainContainer: {
+    rowContainer: {
         paddingLeft: "5em",
         paddingRight: "5em",
-        paddingTop: "2em",
-        paddingBottom: "10em",
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft: "1.5em",
+            paddingRight: "1.5em",
+            paddingTop: "1em",
+        },
     }, 
     heading: {
         maxWidth: "40em",
@@ -43,6 +48,7 @@ export default function CustomSoftware(props) {
     const theme = useTheme();
     const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
     const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+    const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
 
     const documentsOptions = {
         loop: true,
@@ -80,8 +86,8 @@ export default function CustomSoftware(props) {
     }
 
     return (
-        <Grid container direction="column" className={classes.mainContainer}>
-            <Grid item container direction="row" justify={matchesMD ? "center" : undefined}> {/* Header */}
+        <Grid container direction="column">
+            <Grid item container direction="row" justify={matchesMD ? "center" : undefined} className={classes.rowContainer} style={{marginTop: matchesXS ? "1em" : "2em"}}> {/* Header */}
                 <Hidden mdDown>
                     <Grid item className={classes.arrowContainer} style={{marginRight: "1em", marginLeft: "-3.5em"}}>
                         <IconButton style={{backgroundColor: "transparent"}} component={Link}  to="/services" onClick={() => {props.setTabindex(1); props.setSelectedIndex(0)}}>
@@ -101,7 +107,7 @@ export default function CustomSoftware(props) {
                             is here to help your business tackle technology. 
                         </Typography>
                         <Typography align={matchesMD ? "center" : undefined} variant="body1" paragraph>
-                            Using regular commercial software leaves you with a lot of stuff you don’t need,
+                            Using regular commercial software leaves you with a lot of stuff you don't need,
                             without some of the stuff you do need, and ultimately controls the way you work.
                             Without using any software at all you risk falling behind competitors and missing
                             out on huge savings from increased efficiency. 
@@ -125,7 +131,7 @@ export default function CustomSoftware(props) {
                     </Grid>
                 </Hidden>
             </Grid> {/* End Header */}
-            <Grid item container direction="row" justify="center" style={{marginTop: "10em", marginBottom: "15em"}}> {/* Icons */}
+            <Grid item container direction="row" justify="center" style={{marginTop: "10em", marginBottom: "15em"}} className={classes.rowContainer}> {/* Icons */}
                 <Grid item container direction="column" md style={{maxWdith: "40em"}} alignItems="center">
                     <Grid item>
                         <Typography variant="h4" gutterBottom>
@@ -157,20 +163,20 @@ export default function CustomSoftware(props) {
                     </Grid>
                 </Grid>
             </Grid> {/* End Icons */}
-            <Grid item container direction={matchesMD ? "column" : "row"} alignItems={matchesMD ? "center" : undefined} justify="space-between"> {/* Animations */}
-                <Grid item container className={classes.itemContainer} md style={{marginBottom: matchesMD ? "15em" : 0}}> {/* Digital Documents and Data */}
+            <Grid item container direction={matchesMD ? "column" : "row"} alignItems={matchesMD ? "center" : undefined} justify="space-between" className={classes.rowContainer}> {/* Animations */}
+                <Grid item container className={classes.itemContainer} md style={{marginBottom: matchesMD ? "15em" : 0}} direction={matchesSM ? "column" : "row"} > {/* Digital Documents and Data */}
                     <Grid item container direction="column" md>
                         <Grid item>
-                            <Typography variant="h4">
+                            <Typography variant="h4" align={matchesSM ? "center" : undefined}>
                                 Digital Documents { "& "} Data
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <Typography variant="body1" paragraph>
+                            <Typography variant="body1" paragraph align={matchesSM ? "center" : undefined}>
                                 Reduce Errors. Reduce Waste.
                                 Reduce Costs.
                             </Typography>
-                            <Typography variant="body1" paragraph>
+                            <Typography variant="body1" paragraph align={matchesSM ? "center" : undefined}>
                                 Billions are spent annually on the
                                 purchasing, printing, and distribution
                                 of paper. On top of the massive
@@ -178,7 +184,7 @@ export default function CustomSoftware(props) {
                                 causes harm to your bottom line as
                                 well. 
                             </Typography>
-                            <Typography variant="body1" paragraph>
+                            <Typography variant="body1" paragraph align={matchesSM ? "center" : undefined}>
                                 By utilizing digital forms and
                                 documents you can remove these
                                 obsolete expenses, accelerate your
@@ -190,18 +196,18 @@ export default function CustomSoftware(props) {
                         <Lottie options={documentsOptions} style={{maxHeight: 275, maxWidth:275, minHeight:250}} />
                     </Grid>
                 </Grid> {/* End Digital Documents and Data*/}
-                <Grid item container className={classes.itemContainer} md> {/* Scale*/}
+                <Grid item container className={classes.itemContainer} md direction={matchesSM ? "column" : "row"}> {/* Scale*/}
                     <Grid item md>
                         <Lottie options={scaleOptions} style={{maxHeight: 260, maxWidth:280}} />
                     </Grid>
                     <Grid item container direction="column" md>
                         <Grid item>
-                            <Typography variant="h4" align="right">
+                            <Typography variant="h4" align={matchesSM ? "center" : "right"} >
                                 Scale
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <Typography variant="body1" paragraph align="right">
+                            <Typography variant="body1" paragraph align={matchesSM ? "center" : "right"}>
                                 Whether you're a large brand, just getting started,
                                 or taking off right now, our application
                                 architecture ensures pain-free growth and
@@ -211,12 +217,12 @@ export default function CustomSoftware(props) {
                     </Grid>
                 </Grid> {/* End Scale*/}
             </Grid> {/* End Animations */}
-            <Grid item container direction="row"  style={{marginTop: "20em", marginBottom:"20em"}}> {/* Root */}
+            <Grid item container direction="row"  style={{marginTop: "20em", marginBottom:"20em"}} className={classes.rowContainer}> {/* Root */}
                 <Grid item container direction="column" alignItems="center">
                     <Grid item>
-                        <img src={root} alt="tree with roots extending out" height="400em" width="400em" />
+                        <img src={root} alt="tree with roots extending out" height={matchesSM ? "300em" : "400em"} width={matchesSM ? "300em" : "400em"} />
                     </Grid>
-                    <Grid item className={classes.itemContainer}>
+                    <Grid item className={classes.itemContainer} direction={matchesSM ? "column" : "row"}>
                         <Typography variant="h4" align="center" gutterBottom>
                             Root-Cause Analysis
                         </Typography>
@@ -235,21 +241,24 @@ export default function CustomSoftware(props) {
                     </Grid>
                 </Grid>
             </Grid> {/* End Root */}
-            <Grid item container direction={matchesMD ? "column" : "row"} alignItems={matchesMD ? "center" : undefined} justify="space-between" style={{marginBottom:"10em"}}> {/* Second Animations */}
-                <Grid item container className={classes.itemContainer} md style={{marginBottom: matchesMD ? "15em" : 0}}> {/* Automation */}
+            <Grid item container direction={matchesMD ? "column" : "row"} alignItems={matchesMD ? "center" : undefined} justify="space-between" style={{marginBottom:"20em"}} className={classes.rowContainer}> {/* Second Animations */}
+                <Grid item container className={classes.itemContainer} md style={{marginBottom: matchesMD ? "15em" : 0}} direction={matchesSM ? "column" : "row"}> {/* Automation */}
                     <Grid item container direction="column" md>
                         <Grid item>
-                            <Typography variant="h4">
-                                Why waste time when you don't have to? 
+                            <Typography variant="h4" align={matchesSM ? "center" : undefined}>
+                                Automation
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <Typography variant="body1" paragraph>
+                            <Typography variant="body1" paragraph align={matchesSM ? "center" : undefined}>
+                                Why waste time when you don't have to? 
+                            </Typography>
+                            <Typography variant="body1" paragraph align={matchesSM ? "center" : undefined}>
                                 We can help you identify processes with
                                 time or event based actions which can now
                                 easily be automated. 
                             </Typography>
-                            <Typography variant="body1" paragraph>
+                            <Typography variant="body1" paragraph align={matchesSM ? "center" : undefined}>
                                 Increasing efficiency increases profits,
                                 leaving you more time to focus on your
                                 business, not busywork.
@@ -260,26 +269,26 @@ export default function CustomSoftware(props) {
                         <Lottie options={automationOptions} style={{maxHeight: 290, maxWidth:280}} />
                     </Grid>
                 </Grid> {/* End Automation*/}
-                <Grid item container className={classes.itemContainer} md> {/* User Experience Design*/}
+                <Grid item container className={classes.itemContainer} md direction={matchesSM ? "column" : "row"}> {/* User Experience Design*/}
                     <Grid item md>
                         <Lottie options={uxOptions} style={{maxHeight: 310, maxWidth:155}} />
                     </Grid>
                     <Grid item container direction="column" md>
                         <Grid item>
-                            <Typography variant="h4" align="right">
-                                Scale
+                            <Typography variant="h4" align={matchesSM ? "center" : "right"}>
+                                User Experience Design
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <Typography variant="body1" paragraph align="right">
+                            <Typography variant="body1" paragraph align={matchesSM ? "center" : "right"}>
                                 A good design that isn't usable
                                 isn't a good design. 
                             </Typography>
-                            <Typography variant="body1" paragraph align="right">
+                            <Typography variant="body1" paragraph align={matchesSM ? "center" : "right"}>
                                 So why are so many pieces of software complicated, confusing,
                                 and frustrating?  
                             </Typography>
-                            <Typography variant="body1" paragraph align="right">
+                            <Typography variant="body1" paragraph align={matchesSM ? "center" : "right"}>
                                 By prioritizing users and the real ways they interact with
                                 technology we're able to develop
                                 unique, personable experiences
@@ -290,6 +299,9 @@ export default function CustomSoftware(props) {
                     </Grid>
                 </Grid> {/* End User Experience Design*/}
             </Grid> {/* End Second Animations */}
+            <Grid item>
+                <CallToAction setTabIndex={props.setTabIndex} />
+            </Grid>
         </Grid>
     )
 
