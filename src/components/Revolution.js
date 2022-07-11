@@ -423,7 +423,7 @@ export default function Revolution(props) {
             </Grid>
             {/* Call To Action */}
             <Grid item>
-                <CallToAction setValue={props.setTabindex} />
+                <CallToAction setTabindex={props.setTabindex} />
             </Grid>
         </Grid>
     )

@@ -166,7 +166,7 @@ export default function MobileApps(props) {
                 </Grid>
             </Grid> {/* End Extend  */}
             <Grid item>
-                <CallToAction setValue={props.setTabindex} />
+                <CallToAction setTabindex={props.setTabindex} />
             </Grid>
         </Grid>
     )

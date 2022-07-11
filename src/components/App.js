@@ -9,6 +9,7 @@ import CustomSoftware from "./CustomSoftware";
 import MobileApps from "./MobileApps"
 import Websites from "./Websites";
 import Revolution from "./Revolution";
+import About from "./About";
 import { useState } from "react"
 function App() {
 
@@ -27,7 +28,7 @@ function App() {
             <Route exact path="/mobileapps" element= {<MobileApps setTabindex={setTabindex} setSelectedIndex={setSelectedIndex} />} />
             <Route exact path="/websites" element= {<Websites setTabindex={setTabindex} setSelectedIndex={setSelectedIndex}  />} />
             <Route exact path="/revolution" element= {<Revolution setTabindex={setTabindex} setSelectedIndex={setSelectedIndex}  />} />
-            <Route exact path="/about" element= {<div>About</div>} />
+            <Route exact path="/about" element= {<About setTabindex={setTabindex} setSelectedIndex={setSelectedIndex}  />} />
             <Route exact path="/contact" element= {<div>Contact</div>} />
             <Route exact path="/estimate" element= {<div>Estimate</div>} />
         </Routes>

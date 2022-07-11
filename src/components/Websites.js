@@ -175,7 +175,7 @@ export default function Websites(props) {
                 </Grid>
             </Grid> {/* End Search Engine Optimization */}
             <Grid item>
-                <CallToAction setValue={props.setTabindex} />
+                <CallToAction setTabindex={props.setTabindex} />
             </Grid>
      </Grid>
   );
