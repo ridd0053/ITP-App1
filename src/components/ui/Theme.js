@@ -87,6 +87,10 @@ export default createMuiTheme({
             },
         },
         MuiInput: {
+            root: {
+                color: arcGrey,
+                fontWeight: 300,
+            },
             underline: {
                 // before hovering or selecting the input field
                 "&:before": {
