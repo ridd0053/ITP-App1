@@ -7,7 +7,10 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Snackbar from "@material-ui/core/Snackbar";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import emailjs from '@emailjs/browser';
 
 import background from "../assets/background.jpg"
 import mobileBackgrond from "../assets/mobileBackground.jpg"
@@ -92,6 +95,8 @@ const useStyles = makeStyles(theme => ({
     const [message, setMessage] = useState("")
 
     const [open, setOpen] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [alert, setAlert] = useState({open: false, message:"", backgroundColor:""})
 
     const isDisabled =
     name.length === 0 ||
@@ -126,6 +131,37 @@ const useStyles = makeStyles(theme => ({
                 break;
         }
     }
+
+    const sendEmail = (e) => {
+        setLoading(true)
+        emailjs.send(process.env.REACT_APP_MY_SERVICE_ID, process.env.REACT_APP_MY_TEMPLATE_ID, {name, email, phone, message}, process.env.REACT_APP_MY_PUBLIC_KEY).then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            setLoading(false)
+            setName("");
+            setEmail("");
+            setPhone("");
+            setMessage("");
+            setOpen(false);
+            setAlert({open: true, message:"Message send successfully", backgroundColor:"#4BB543"})
+
+        }, function(error) {
+            console.log('FAILED...', error);
+            setLoading(false)
+            setName("");
+            setEmail("");
+            setPhone("");
+            setMessage("");
+            setOpen(false);
+            setAlert({open: true, message:"Something went wrong, please try again later", backgroundColor:"#FF3232"})
+        });
+    }
+
+    const buttonContent = (
+        <React.Fragment>
+             Send Message
+            <img src={airplane} alt="paper airplane" style={{marginLeft: "1em"}} />
+        </React.Fragment>
+    )
 
 
     const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
@@ -193,8 +229,7 @@ const useStyles = makeStyles(theme => ({
                             className={classes.sendButton}
                             onClick={() => setOpen(true)}
                             >
-                                Send Message
-                                <img src={airplane} alt="paper airplane" style={{marginLeft: "1em"}} />
+                                {buttonContent}
                             </Button>
                         </Grid>
                         <Dialog open={open} 
@@ -241,16 +276,22 @@ const useStyles = makeStyles(theme => ({
                                             <Button variant="contained" 
                                                 disabled={isDisabled}
                                                 className={classes.sendButton}
-                                                onClick={() => setOpen(true)}
+                                                onClick={sendEmail}
                                                 >
-                                                    Send Message
-                                                    <img src={airplane} alt="paper airplane" style={{marginLeft: "1em"}} />
-                                                </Button>
+                                                   {loading ? <CircularProgress size={30} /> : buttonContent}
+                                            </Button>
                                         </Grid>
                                     </Grid>
                                 </Grid>
                             </DialogContent>
                         </Dialog>
+                        <Snackbar 
+                        open={alert.open} 
+                        message={alert.message}
+                        autoHideDuration={4000} 
+                        anchorOrigin={{vertical:"top", horizontal:"center"}} 
+                        ContentProps={{style: {backgroundColor: alert.backgroundColor}}} 
+                        onClose={() => setAlert({...alert, open: false})}/>
                     </Grid>
                 </Grid>
             </Grid>
