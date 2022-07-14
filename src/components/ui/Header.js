@@ -209,7 +209,7 @@ export default function Header(props) {
                 }
                 break;
               case "/estimate":
-                props.setTabindex(routes.length + 1);
+                props.setTabindex(routes.length);
                 break;
               default:
                 break;

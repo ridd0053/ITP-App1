@@ -11,6 +11,7 @@ import Websites from "./Websites";
 import Revolution from "./Revolution";
 import About from "./About";
 import Contact from "./Contact"
+import Estimate from "./Estimate";
 import { useState } from "react"
 function App() {
 
@@ -31,7 +32,7 @@ function App() {
             <Route exact path="/revolution" element= {<Revolution setTabindex={setTabindex} setSelectedIndex={setSelectedIndex}  />} />
             <Route exact path="/about" element= {<About setTabindex={setTabindex} setSelectedIndex={setSelectedIndex}  />} />
             <Route exact path="/contact" element= {<Contact setTabindex={setTabindex} setSelectedIndex={setSelectedIndex}  />} />
-            <Route exact path="/estimate" element= {<div>Estimate</div>} />
+            <Route exact path="/estimate" element= {<Estimate setTabindex={setTabindex} setSelectedIndex={setSelectedIndex} />} />
         </Routes>
           <Footer setTabindex={setTabindex} setSelectedIndex={setSelectedIndex} />
         </Router>
