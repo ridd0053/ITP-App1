@@ -200,7 +200,7 @@ const useStyles = makeStyles(theme => ({
                                 </Typography>
                             </Grid>
                         </Grid>
-                        <Grid item container direction="column" style={{maxWidth: "20em"}}>
+                        <Grid item container direction="column" style={{width: "20em"}}>
                             <Grid item style={{marginBottom: "0.5em"}}>
                                 <TextField label="Name" id="name" value={name} fullWidth onChange={(event) => setName(event.target.value)} />
                             </Grid>
@@ -210,7 +210,7 @@ const useStyles = makeStyles(theme => ({
                             <Grid item style={{marginBottom: "0.5em"}}>
                                 <TextField label="Phone" error={phoneHelper.length !== 0} helperText={phoneHelper} id="phone" value={phone} fullWidth onChange={onChange} />
                             </Grid>
-                            <Grid item style={{maxWidth: "20em"}}>
+                            <Grid item style={{width: "20em"}}>
                                 <TextField 
                                 value={message} 
                                 id="message"
@@ -234,9 +234,9 @@ const useStyles = makeStyles(theme => ({
                         </Grid>
                         <Dialog open={open} 
                         onClose={() => setOpen(false)} 
-                        PaperProps={{style: {padding: matchesXS ? "1em 0" : matchesSM ? "1em 5em" : matchesMD ? "1em 10em" : "5em 20em"}}} 
+                        PaperProps={{style: {padding: matchesXS ? "1em 0" : matchesSM ? "1em 5em" : matchesMD ? "1em 15em" : "5em 25em"}}} 
                         style={{zIndex: 1302}}
-                        fullScreen={matchesXS}
+                        fullScreen={matchesSM}
                         >
                             <DialogContent>
                                 <Grid container direction="column">
@@ -254,7 +254,7 @@ const useStyles = makeStyles(theme => ({
                                     <Grid item style={{marginBottom: "0.5em"}}>
                                         <TextField label="Phone" error={phoneHelper.length !== 0} helperText={phoneHelper} id="phone" value={phone} fullWidth onChange={onChange} />
                                     </Grid>
-                                    <Grid item style={{maxWidth: matchesXS ? "100%" : "20em"}}>
+                                    <Grid item style={{width: matchesSM ? "100%" : "20em"}}>
                                         <TextField 
                                         value={message} 
                                         id="message"
