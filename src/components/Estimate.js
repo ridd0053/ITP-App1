@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { cloneDeep } from 'lodash';
-import { Link } from "react-router-dom"
 import Lottie from "react-lottie"
 import { makeStyles, useTheme } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
@@ -12,7 +11,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
 import Hidden from "@material-ui/core/Hidden";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Snackbar from "@material-ui/core/Snackbar";
 import useMediaQuery  from "@material-ui/core/useMediaQuery";
+import emailjs from '@emailjs/browser';
 
 import check from "../assets/check.svg";
 import send from "../assets/send.svg";
@@ -353,6 +355,9 @@ export default function Estimate(props) {
     const [category, setCategory] = useState("");
     const [users, setUsers] = useState("");
 
+    const [loading, setLoading] = useState(false)
+    const [alert, setAlert] = useState({open: false, message:"", backgroundColor:""})
+
 
     const defaultOptions = {
         loop: true,
@@ -537,6 +542,49 @@ export default function Estimate(props) {
             }
             
      };
+     const esitimateDisabled = () => {
+        let disabled = true
+        const emptySelections = questions.map( question =>
+            question.options.filter(option => option.selected)).filter(question =>
+                question.length === 0)
+
+        if ( questions.length === 2 ) {
+            if( emptySelections.length === 1 ) {
+                disabled = false
+            }
+        } 
+        else if( questions.length === 1) {
+            disabled = true
+        } 
+        else if( emptySelections.length < 3 && questions[questions.length - 1].options.filter(option => option.selected).length > 0) {
+            disabled = false
+        }
+        return disabled
+     }
+
+     const placeRequest = (e) => {
+        setLoading(true)
+        emailjs.send(process.env.REACT_APP_MY_SERVICE_ID, process.env.REACT_APP_MY_TEMPLATE_ID, {sort: "Estimate request", name, email, phone, message, service, platforms, features, customFeatures, category, users, total}, process.env.REACT_APP_MY_PUBLIC_KEY).then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            setLoading(false)
+            setName("");
+            setEmail("");
+            setPhone("");
+            setMessage("");
+            setDialogOpen(false);
+            setAlert({open: true, message:"Your estimate is send successfully", backgroundColor:"#4BB543"})
+
+        }, function(error) {
+            console.log('FAILED...', error);
+            setLoading(false)
+            setName("");
+            setEmail("");
+            setPhone("");
+            setMessage("");
+            setDialogOpen(false);
+            setAlert({open: true, message:"Something went wrong, please try again later", backgroundColor:"#FF3232"})
+        });
+    }
 
      const softwareSelection = (
         <Grid item container direction="column" style={{marginBottom: "1.25em"}}>
@@ -700,7 +748,7 @@ export default function Estimate(props) {
                     </Grid>
                 </Grid>
                 <Grid item >
-                    <Button variant="contained" onClick={() => {setDialogOpen(true); getTotal(); getSelections();}} className={classes.estimateButton}>
+                    <Button variant="contained" disabled={esitimateDisabled()} onClick={() => {setDialogOpen(true); getTotal(); getSelections();}} className={classes.estimateButton}>
                         Get Estimate
                     </Button>
                 </Grid>
@@ -737,11 +785,12 @@ export default function Estimate(props) {
                                 fullWidth
                                 className={classes.message}
                                 InputProps={{disableUnderline: true}}
+                                placeholder="Tell us more about your project"
                                 onChange={(event) => setMessage(event.target.value)} 
                                 />
                             </Grid>
                             <Grid item>
-                                <Typography variant="body1" paragraph align={matchesSM ? "center" : undefined}>
+                                <Typography variant="body1" paragraph align={matchesSM ? "center" : undefined} style={{lineHeight: 1.25}}>
                                     We can create this digital solution for an estimated 
                                     <span className={classes.specialText}>{" "}€{total.toFixed(2)}</span>
                                 </Typography>
@@ -757,9 +806,13 @@ export default function Estimate(props) {
                                 </Grid>
                             </Hidden>
                             <Grid item>
-                                <Button variant="contained" className={classes.estimateButton}>
-                                    Place Request
-                                    <img src={send} alt="paper airplane" style={{marginLeft: "0.5em"}} />
+                                <Button variant="contained" className={classes.estimateButton} onClick={placeRequest} disabled={isDisabled}>
+                                    
+                                    {loading ? <CircularProgress size={30} /> :
+                                    <React.Fragment>
+                                        Place Request <img src={send} alt="paper airplane" style={{marginLeft: "0.5em"}} 
+                                    />
+                                    </React.Fragment> }
                                 </Button>
                             </Grid>
                             <Hidden mdUp>
@@ -773,6 +826,13 @@ export default function Estimate(props) {
                     </Grid>
                 </DialogContent>
             </Dialog>
+            <Snackbar 
+                    open={alert.open} 
+                    message={alert.message}
+                    autoHideDuration={4000} 
+                    anchorOrigin={{vertical:"top", horizontal:"center"}} 
+                    ContentProps={{style: {backgroundColor: alert.backgroundColor}}} 
+                    onClose={() => setAlert({...alert, open: false})}/>
         </Grid>
     )
 }

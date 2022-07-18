@@ -134,7 +134,7 @@ const useStyles = makeStyles(theme => ({
 
     const sendEmail = (e) => {
         setLoading(true)
-        emailjs.send(process.env.REACT_APP_MY_SERVICE_ID, process.env.REACT_APP_MY_TEMPLATE_ID, {name, email, phone, message}, process.env.REACT_APP_MY_PUBLIC_KEY).then(function(response) {
+        emailjs.send(process.env.REACT_APP_MY_SERVICE_ID, process.env.REACT_APP_MY_TEMPLATE_ID, {sort: "Contactform", name, email, phone, message}, process.env.REACT_APP_MY_PUBLIC_KEY).then(function(response) {
             console.log('SUCCESS!', response.status, response.text);
             setLoading(false)
             setName("");
